@@ -4,7 +4,7 @@ echo "second-script.sh"
 
 if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ];then
     echo "Building master branch second..."
-else if [ "$TRAVIS_PULL_REQUEST" = "1" ] || [ "$TRAVIS_EVENT_TYPE" = "pull_request" ];then
+else if [ "$TRAVIS_PULL_REQUEST" != "" ] && [ "$TRAVIS_EVENT_TYPE" = "pull_request" ];then
         echo "Building PR request second..."
     fi
 fi
