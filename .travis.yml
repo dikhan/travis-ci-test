@@ -1,0 +1,40 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+env:
+  global:
+
+# blocklist
+branches:
+  except:
+  - /^(?i:pagerduty-client)-.*$/
+
+install:
+  - git remote set-head origin $TRAVIS_BRANCH
+  - git show-ref --head
+  - git symbolic-ref HEAD refs/heads/$TRAVIS_BRANCH
+  - git symbolic-ref HEAD
+  - mvn install -P !build-extras -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - export TRAVIS_COMMIT_DESCRIPTION=`git log -n 1`
+
+script:
+  - env
+  - if [[ "$TRAVIS_BRANCH" == "master" ]];
+    then
+      echo "Building master branch first..."
+    else if [[ "$TRAVIS_PULL_REQUEST" == "true" ]];
+        then
+            echo "Building PR request first..."
+        fi
+    fi
+
+  - if [ "$TRAVIS_BRANCH" = "master" ];
+    then
+        echo "Building master branch second..."
+    else if [ "$TRAVIS_PULL_REQUEST" = "true" ];
+        then
+            echo "Building PR request second..."
+        fi
+    fi
