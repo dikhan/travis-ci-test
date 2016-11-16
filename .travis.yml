@@ -6,10 +6,9 @@ jdk:
 env:
   global:
 
-# blocklist
 branches:
-  except:
-  - /^(?i:pagerduty-client)-.*$/
+  only:
+    - master
 
 script:
   - env
